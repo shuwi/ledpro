@@ -13,3 +13,8 @@
 
 `./node_modules/.bin/electron-rebuild -v 2.0.12`
 
+
+## canvas
+
+`npm install --build-from-source=canvas`
+
