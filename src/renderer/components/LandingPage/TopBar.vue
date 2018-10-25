@@ -15,7 +15,6 @@
     </div>
   </div>
 </template>
-
 <script>
   const remote = require('electron').remote
   export default {
@@ -45,7 +44,6 @@
   }
 
 </script>
-
 <style scoped>
   .topBar {
     -webkit-app-region: drag;

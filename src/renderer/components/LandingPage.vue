@@ -18,219 +18,70 @@
             <Button shape="circle" type="primary" @click="handleSubmit('netset')" style="width:90px;">读取</Button>
             <Button shape="circle" type="info" @click="handleReset('netset')" style="margin-left:8px;width:90px;">设置</Button>
           </FormItem>
+          <div id="color"></div>
         </Form>
       </TabPane>
       <TabPane label="第一页屏" name="one" icon="ios-browsers-outline">
-        <Form :model="formItem1" :label-width="80" style="width:500px;height:600px;margin:20px auto;">
+        <Form :model="pageone" :rules="pageoneRule" :label-width="160" style="width:680px;height:680px;margin:10px auto;">
           <FormItem label="是否启用">
-            <i-switch v-model="formItem1.switch" size="large">
+            <i-switch v-model="pageone.switch" size="large">
               <span slot="open">启用</span>
               <span slot="close">关闭</span>
             </i-switch>
           </FormItem>
           <FormItem label="第一行">
-            <Input v-model="formItem1.textarea" placeholder="请输入第一行内容"></Input>
-            <RadioGroup v-model="formItem1.radio1">
-              <Radio label="left1">居左</Radio>
-              <Radio label="middle1">居中</Radio>
-              <Radio label="right1">居右</Radio>
+            <Input v-model="pageone.lineone" placeholder="请输入第一行内容" style="width:200px;" :maxlength="8"></Input>
+            <RadioGroup v-model="pageone.radioone">
+              <Radio label="left">居左</Radio>
+              <Radio label="middle">居中</Radio>
+              <Radio label="right">居右</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="第二行">
-            <Input v-model="formItem1.textarea" placeholder="请输入第二行内容"></Input>
-            <RadioGroup v-model="formItem.radio2">
-              <Radio label="left2">居左</Radio>
-              <Radio label="middle2">居中</Radio>
-              <Radio label="right2">居右</Radio>
+            <Input v-model="pageone.linetwo" placeholder="请输入第二行内容" style="width:200px;" :maxlength="8"></Input>
+            <RadioGroup v-model="pageone.radiotwo">
+              <Radio label="left">居左</Radio>
+              <Radio label="middle">居中</Radio>
+              <Radio label="right">居右</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="第三行">
-            <Input v-model="formItem1.textarea" placeholder="请输入第三行内容"></Input>
-            <RadioGroup v-model="formItem1.radio3">
-              <Radio label="left3">居左</Radio>
-              <Radio label="middle3">居中</Radio>
-              <Radio label="right3">居右</Radio>
+            <Input v-model="pageone.linethree" placeholder="请输入第三行内容" style="width:200px;" :maxlength="8"></Input>
+            <RadioGroup v-model="pageone.radiothree">
+              <Radio label="left">居左</Radio>
+              <Radio label="middle">居中</Radio>
+              <Radio label="right">居右</Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="显示方案">
-            <Select v-model="formItem1.select" style="width:190px;">
-              <Option value="beijing">立即显示</Option>
-              <Option value="shanghai">连续左移</Option>
-              <Option value="shenzhen">左移（带停留）</Option>
-              <Option value="beijing">连续下移</Option>
-              <Option value="shanghai">下移（带停留）</Option>
-              <Option value="shenzhen">闪烁</Option>
-              <Option value="shenzhen">连续上移</Option>
-              <Option value="shenzhen">上移（带停留）</Option>
-              <Option value="shenzhen">飘雪</Option>
+            <Select v-model="pageone.select" style="width:200px;">
+              <Option value="ljxs">立即显示</Option>
+              <Option value="lxzy">连续左移</Option>
+              <Option value="zy">左移（带停留）</Option>
+              <Option value="lxxy">连续下移</Option>
+              <Option value="xy">下移（带停留）</Option>
+              <Option value="ss">闪烁</Option>
+              <Option value="lxsy">连续上移</Option>
+              <Option value="sy">上移（带停留）</Option>
+              <Option value="px">飘雪</Option>
             </Select>
           </FormItem>
           <FormItem>
             <Button shape="circle" type="primary" style="width:90px;" @click="test">获取</Button>
             <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialport">设置</Button>
-            <Button shape="circle" type="waring" style="margin-left:12px;width:90px;" @click="preview">预览</Button>
+            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview">预览</Button>
           </FormItem>
-          <div id="preview"></div>
-          <div id="mycanvas"></div>
+          <div id="preview" ref="pageonepre"></div>
         </Form>
-
       </TabPane>
       <TabPane label="第二页屏" name="two" icon="ios-browsers-outline">
-        <Form :model="formItem2" :label-width="80" style="width:400px;height:600px;margin:14px auto 0 auto;">
-          <FormItem label="是否启用">
-            <i-switch v-model="formItem2.switch" size="large">
-              <span slot="open">启用</span>
-              <span slot="close">关闭</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="第一行">
-            <Input v-model="formItem2.textarea" placeholder="请输入第一行内容"></Input>
-            <RadioGroup v-model="formItem.radio1">
-              <Radio label="left1">居左</Radio>
-              <Radio label="middle1">居中</Radio>
-              <Radio label="right1">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第二行">
-            <Input v-model="formItem2.textarea" placeholder="请输入第二行内容"></Input>
-            <RadioGroup v-model="formItem.radio2">
-              <Radio label="left2">居左</Radio>
-              <Radio label="middle2">居中</Radio>
-              <Radio label="right2">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第三行">
-            <Input v-model="formItem2.textarea" placeholder="请输入第三行内容"></Input>
-            <RadioGroup v-model="formItem.radio3">
-              <Radio label="left3">居左</Radio>
-              <Radio label="middle3">居中</Radio>
-              <Radio label="right3">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="显示方案">
-            <Select v-model="formItem2.select" style="width:190px;">
-              <Option value="beijing">立即显示</Option>
-              <Option value="shanghai">连续左移</Option>
-              <Option value="shenzhen">左移（带停留）</Option>
-              <Option value="beijing">连续下移</Option>
-              <Option value="shanghai">下移（带停留）</Option>
-              <Option value="shenzhen">闪烁</Option>
-              <Option value="shenzhen">连续上移</Option>
-              <Option value="shenzhen">上移（带停留）</Option>
-              <Option value="shenzhen">飘雪</Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;">设置</Button>
-            <Button shape="circle" type="waring" style="margin-left:12px;width:90px;">预览</Button>
-          </FormItem>
-
-        </Form>
+        2
       </TabPane>
       <TabPane label="第三页屏" name="three" icon="ios-browsers-outline">
-        <Form :model="formItem3" :label-width="80" style="width:400px;height:600px;margin:14px auto 0 auto;">
-          <FormItem label="是否启用">
-            <i-switch v-model="formItem3.switch" size="large">
-              <span slot="open">启用</span>
-              <span slot="close">关闭</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="第一行">
-            <Input v-model="formItem3.textarea" placeholder="请输入第一行内容"></Input>
-            <RadioGroup v-model="formItem3.radio1">
-              <Radio label="left1">居左</Radio>
-              <Radio label="middle1">居中</Radio>
-              <Radio label="right1">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第二行">
-            <Input v-model="formItem3.textarea" placeholder="请输入第二行内容"></Input>
-            <RadioGroup v-model="formItem3.radio2">
-              <Radio label="left2">居左</Radio>
-              <Radio label="middle2">居中</Radio>
-              <Radio label="right2">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第三行">
-            <Input v-model="formItem3.textarea" placeholder="请输入第三行内容"></Input>
-            <RadioGroup v-model="formItem3.radio3">
-              <Radio label="left3">居左</Radio>
-              <Radio label="middle3">居中</Radio>
-              <Radio label="right3">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="显示方案">
-            <Select v-model="formItem3.select" style="width:190px;">
-              <Option value="beijing">立即显示</Option>
-              <Option value="shanghai">连续左移</Option>
-              <Option value="shenzhen">左移（带停留）</Option>
-              <Option value="beijing">连续下移</Option>
-              <Option value="shanghai">下移（带停留）</Option>
-              <Option value="shenzhen">闪烁</Option>
-              <Option value="shenzhen">连续上移</Option>
-              <Option value="shenzhen">上移（带停留）</Option>
-              <Option value="shenzhen">飘雪</Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;">设置</Button>
-            <Button shape="circle" type="waring" style="margin-left:12px;width:90px;">预览</Button>
-          </FormItem>
-        </Form>
+        3
       </TabPane>
       <TabPane label="第四页屏" name="four" icon="ios-browsers-outline">
-        <Form :model="formItem4" :label-width="80" style="width:400px;height:600px;margin:14px auto 0 auto;">
-          <FormItem label="是否启用">
-            <i-switch v-model="formItem4.switch" size="large">
-              <span slot="open">启用</span>
-              <span slot="close">关闭</span>
-            </i-switch>
-          </FormItem>
-          <FormItem label="第一行">
-            <Input v-model="formItem4.textarea" placeholder="请输入第一行内容"></Input>
-            <RadioGroup v-model="formItem4.radio1">
-              <Radio label="left1">居左</Radio>
-              <Radio label="middle1">居中</Radio>
-              <Radio label="right1">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第二行">
-            <Input v-model="formItem4.textarea" placeholder="请输入第二行内容"></Input>
-            <RadioGroup v-model="formItem4.radio2">
-              <Radio label="left2">居左</Radio>
-              <Radio label="middle2">居中</Radio>
-              <Radio label="right2">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="第三行">
-            <Input v-model="formItem.textarea" placeholder="请输入第三行内容"></Input>
-            <RadioGroup v-model="formItem4.radio3">
-              <Radio label="left3">居左</Radio>
-              <Radio label="middle3">居中</Radio>
-              <Radio label="right3">居右</Radio>
-            </RadioGroup>
-          </FormItem>
-          <FormItem label="显示方案">
-            <Select v-model="formItem4.select" style="width:190px;">
-              <Option value="beijing">立即显示</Option>
-              <Option value="shanghai">连续左移</Option>
-              <Option value="shenzhen">左移（带停留）</Option>
-              <Option value="beijing">连续下移</Option>
-              <Option value="shanghai">下移（带停留）</Option>
-              <Option value="shenzhen">闪烁</Option>
-              <Option value="shenzhen">连续上移</Option>
-              <Option value="shenzhen">上移（带停留）</Option>
-              <Option value="shenzhen">飘雪</Option>
-            </Select>
-          </FormItem>
-          <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;">设置</Button>
-            <Button shape="circle" type="waring" style="margin-left:12px;width:90px;">预览</Button>
-          </FormItem>
-        </Form>
+        4
       </TabPane>
     </Tabs>
     <footer>
@@ -242,6 +93,10 @@
   import {
     CRC
   } from 'crc-full'
+  const {
+    createCanvas,
+    loadImage
+  } = require('canvas')
   export default {
     name: 'landing-page',
     components: {
@@ -266,18 +121,26 @@
             trigger: 'blur'
           }]
         },
-        formItem: {},
-        formItem1: {},
-        formItem2: {},
-        formItem3: {},
-        formItem4: {},
+        pageone: {
+          switch: '',
+          select: 'ljxs',
+          lineone: '',
+          linetwo: '',
+          linethree: '',
+          radioone: 'left',
+          radiotwo: 'left',
+          radiothree: 'left'
+        },
+        pageoneRule: {
+
+        },
         leddata: [],
         comlist: [],
-        commodel: ''
+        commodel: '',
+        imgsrc: ''
       }
     },
-    created() {
-      /*./node_modules/.bin/electron-rebuild -v 2.0.12*/
+    mounted() {
       var SerialPort = require('serialport')
       let portInner = ""
       var that = this
@@ -291,7 +154,7 @@
           that.comlist.push(cominfo)
         })
       })
-      console.log(that.comlist)
+
     },
     methods: {
       open(link) {
@@ -310,25 +173,135 @@
         this.$refs[name].resetFields();
       },
       preview() {
-        var grid = require('pixel-grid')
-        this.leddata = []
-        for (var i = 0; i <= 47; i++) {
-          var row = []
-          for (var j = 0; j <= 127; j++) {
-            row.push(1)
-          }
-          this.leddata.push(row)
+        const {
+          createCanvas,
+          loadImage
+        } = require('canvas')
+        const canvas = createCanvas(128, 48)
+        const ctx = canvas.getContext('2d')
+        var that = this
+
+        that.leddata = []
+        ctx.font = '16px 宋体'
+
+        if (that.pageone.radioone == 'left') {
+          ctx.fillText(that.pageone.lineone, 0, 14)
         }
-        console.log('data = ', this.leddata)
-        var pixels = grid(this.leddata, {
-          root: document.getElementById('preview'),
-          size: 2
+        if (that.pageone.radioone == 'middle') {
+          ctx.textAlign = "center"
+          ctx.fillText(that.pageone.lineone, 64, 14)
+        }
+        if (that.pageone.radioone == 'right') {
+          ctx.textAlign = "right"
+          ctx.fillText(that.pageone.lineone, 128, 14)
+        }
+
+        if (that.pageone.radiotwo == 'left') {
+          ctx.textAlign = "left"
+          ctx.fillText(that.pageone.linetwo, 0, 30)
+        }
+        if (that.pageone.radiotwo == 'middle') {
+          ctx.textAlign = "center"
+          ctx.fillText(that.pageone.linetwo, 64, 30)
+        }
+        if (that.pageone.radiotwo == 'right') {
+          ctx.textAlign = "right"
+          ctx.fillText(that.pageone.linetwo, 128, 30)
+        }
+
+        if (that.pageone.radiothree == 'left') {
+          ctx.textAlign = "left"
+          ctx.fillText(that.pageone.linethree, 0, 46)
+        }
+        if (that.pageone.radiothree == 'middle') {
+          ctx.textAlign = "center"
+          ctx.fillText(that.pageone.linethree, 64, 46)
+        }
+        if (that.pageone.radiothree == 'right') {
+          ctx.textAlign = "right"
+          ctx.fillText(that.pageone.linethree, 128, 46)
+        }
+
+        var base64Img = require('base64-img')
+        loadImage(require('path').join('../../../bg.png')).then((image) => {
+          ctx.drawImage(image, 0, 0, 0, 48)
+          that.imgsrc = canvas.toDataURL()
+          base64Img.img(that.imgsrc, 'resources/', 'pageone', function (err, filepath) {
+            var zeros = require("zeros")
+            var fill = require("ndarray-fill")
+            var x = zeros([48, 128])
+
+            var getPixels = require("get-pixels")
+            var ndarray = require("ndarray")
+            getPixels(filepath, function (err, pixels) {
+              if (err) {
+                console.log("Bad image path")
+                return
+              }
+              var temp = require("ndarray-unpack")(pixels)
+
+              fill(x, function (i, j) {
+                return (temp[j][i])[3] > 0 ? 1 : 0
+              })
+              const math = require('mathjs')
+
+              var Matrix = require('matrix-slicer')
+              var mm = new Matrix(require("ndarray-unpack")(x))
+
+              var basetemp = []
+              //间隔时间链式列循环生成像素矩阵
+              var iii = 0
+              setInterval(function () {
+                for (var ii = 0; ii < 128; ii++) {
+                  if (ii < 127 && ii > 0) {
+                    basetemp[ii] = mm.getColumn(ii + 1)
+                  } else {
+                    if (ii == 0)
+                      basetemp[ii] = mm.getColumn(1)
+                    if (ii == 127)
+                      basetemp[ii] = mm.getColumn(0)
+                  }
+
+                }
+                iii++
+                if (iii < 128)
+                  mm = new Matrix(math.transpose(basetemp))
+                else {
+                  iii = 0
+                  mm = new Matrix(require("ndarray-unpack")(x))
+                }
+                that.leddata = math.transpose(basetemp)
+
+                for (var i = 0; i < 128; i++) {
+                  for (var j = 0; j < 48; j++) {
+                    if (that.leddata[j][i] == 1) {
+                      that.leddata[j][i] = '#ff0000'
+                    } else {
+                      that.leddata[j][i] = '#333333'
+                    }
+                  }
+                }
+                try {
+                  that.$refs.pageonepre.innerHTML = ""
+                  var grid = require('pixel-grid')
+                  var pixels = grid(that.leddata, {
+                    root: document.getElementById('preview'),
+                    size: 3,
+                    formatted: false
+                  })
+                } catch (ex) {
+
+                }
+              }, 0)
+            })
+          })
         })
+
       },
       test() {
         var getPixels = require("get-pixels")
         var that = this
-        getPixels("resource/heart.jpg", function (err, pixels) {
+        getPixels("resource/tt.jpg", function (err, pixels) {
           var pix = {}
           var pp = {}
 
@@ -339,11 +312,8 @@
           pix = pixels
           pp = pixels
           that.stepLife(pp, pix)
-
         })
 
-        //console.log('pp',pp)
-        //console.log('pix',pix)
       },
       serialport() {
         var iconv = require('iconv-lite')
@@ -380,28 +350,15 @@
 
       },
       stepLife(next_state, cur_state) {
-        this.leddata = []
-        var arr = require("ndarray-unpack")(cur_state)
-        for (var i = 0; i <= 47; i++) {
-          var row = []
-          for (var j = 0; j <= 127; j++) {
-            if (arr[i, j][0][2] < 255){
-              console.log('1')
-              row.push(1)
-            }else{
-              console.log(arr[i, j])
-              row.push(0)
-            }
-          }
-          this.leddata.push(row)
-        }
-        var grid = require('pixel-grid')
+        console.log('size = ', cur_state.size)
 
-        var pixels = grid(this.leddata, {
+        var arr = require("ndarray-unpack")(cur_state)
+        var grid = require('pixel-grid')
+        console.log('arr = ', arr)
+        var pixels = grid(arr, {
           root: document.getElementById('preview'),
           size: 2
         })
-
       }
     }
   }
@@ -449,5 +406,10 @@
 
   #preview {
     margin: 0 auto;
+    padding-left: 20px;
+  }
+
+  vanvas {
+    color: red;
   }
 </style>

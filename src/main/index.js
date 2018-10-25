@@ -24,12 +24,12 @@ function createWindow () {
     frame: false,
     transparent: false,
     movable: true,
-    resizable: false,
+    resizable: true,
     webPreferences: {webSecurity: false}
   })
 
   mainWindow.loadURL(winURL)
-
+  //mainWindow.webContents.openDevTools()
   mainWindow.on('closed', () => {
     mainWindow = null
   })

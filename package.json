@@ -20,21 +20,29 @@
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js"
   },
   "dependencies": {
-    "8bit": "^1.0.1",
     "axios": "^0.18.0",
+    "base64-img": "^1.0.4",
     "crc-full": "^1.1.0",
     "get-pixels": "^3.3.2",
     "iconv-lite": "^0.4.24",
     "iview": "^3.1.2",
     "lowdb": "^1.0.0",
+    "mathjs": "^5.2.1",
+    "matrix-slicer": "^2.8.0",
+    "ndarray": "^1.0.18",
+    "ndarray-bit": "^1.0.0",
+    "ndarray-fill": "^1.0.2",
     "ndarray-unpack": "^1.0.0",
+    "ndarray-vector-fill": "^1.0.0",
+    "node-gyp": "^3.8.0",
     "node-pre-gyp": "^0.11.0",
     "pixel-grid": "^1.0.2",
     "serialport": "^7.0.2",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "zeros": "^1.0.0"
   },
   "devDependencies": {
     "ajv": "^6.5.0",
