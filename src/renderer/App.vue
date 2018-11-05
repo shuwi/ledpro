@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TopBar from '@/components/LandingPage/TopBar'
+  import TopBar from '@/components/LandingPage/TopBar'
 
   export default {
     name: 'ledpro',
@@ -17,5 +17,5 @@ import TopBar from '@/components/LandingPage/TopBar'
 </script>
 
 <style>
-  /* CSS */
+  
 </style>

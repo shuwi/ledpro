@@ -1,15 +1,15 @@
 <template>
   <div class="topBar">
-    {{appname}} v{{version}}
-    <div class="actionBtn-container">
-      <div class="close actionBtn" @click="closeApp">
-        <Tooltip content="关闭" placement="bottom-end" :transfer="true" :delay="500">
-          <Icon type="ios-close-circle" color="#ed4014"></Icon>
-        </Tooltip>
-      </div>
+    <div style="text-align:center;">{{appname}} v{{version}}</div>
+    <div id="actionBtn-container">
       <div class="minimize actionBtn" @click="minimize">
         <Tooltip content="最小化" placement="bottom-end" :transfer="true" :delay="500">
-          <Icon type="ios-remove-circle" color="#ff9900"></Icon>
+          <Icon type="md-remove" color="#fff"></Icon>
+        </Tooltip>
+      </div>
+      <div class="close actionBtn" @click="closeApp">
+        <Tooltip content="关闭" placement="bottom-end" :transfer="true" :delay="500">
+          <Icon type="md-close" color="#fff"></Icon>
         </Tooltip>
       </div>
     </div>
@@ -29,46 +29,48 @@
     },
     methods: {
       closeApp() {
-        this.$Modal.confirm({
-          title: '确认',
-          content: '<p>确认关闭并退出本系统？</p>',
-          onOk: () => {
-            remote.app.quit()
-          }
-        });
+        try {
+          this.$Modal.confirm({
+            title: '确认',
+            content: '<p>确认关闭并退出本系统？</p>',
+            onOk: () => {
+              remote.app.quit()
+            },
+            onCancel: () => {
+              
+            }
+          })
+        } catch (err) {}
       },
       minimize() {
         remote.BrowserWindow.getFocusedWindow().minimize()
       }
     }
   }
-
 </script>
 <style scoped>
   .topBar {
     -webkit-app-region: drag;
-    background-color: #ffffff;
-    height: 35px;
-    position: fixed;
-    z-index: 99;
-    top: 0px;
-    left: 0px;
+    background-color: transparent;
+    height: 32px;
     width: 100%;
     padding: 6px;
     -webkit-transition: all .3s;
     transition: all .3s;
-    user-select: none;
-    text-align: center;
-    color: rgb(68, 66, 66);
-    font-size:12px;
-    font-weight: 600;
-    background:#f5f5f5;
+    color: rgb(241, 241, 241);
+    font-size: 12px;
     line-height: 2em;
+    z-index: 11;
+    position: relative;
   }
 
-  .actionBtn-container {
+  #actionBtn-container {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
     display: flex;
   }
@@ -83,19 +85,14 @@
     transition: all .3s;
     line-height: 2em;
     font-weight: bold;
-    opacity: .7;
+    opacity: .6;
   }
 
   .actionBtn:hover {
     opacity: 1;
   }
 
-  .actionBtn.close:hover {
-    color: #f51a06;
-  }
-
   .close {
-    margin: 0 0 0 8px;
+    margin: 0 8px 0 10px;
   }
-
 </style>
