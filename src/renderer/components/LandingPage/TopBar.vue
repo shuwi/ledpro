@@ -33,6 +33,7 @@
           this.$Modal.confirm({
             title: '确认',
             content: '<p>确认关闭并退出本系统？</p>',
+            okText: '确认退出',
             onOk: () => {
               remote.app.quit()
             },

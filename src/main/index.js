@@ -12,13 +12,13 @@ let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
-//const winURL = `file://${__dirname}/index.html`
+
 function createWindow () {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 740,
+    height: 540,
     useContentSize: true,
     width: 750,
     frame: false,

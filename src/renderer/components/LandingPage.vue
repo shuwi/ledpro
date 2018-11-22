@@ -2,7 +2,7 @@
   <div class="custom-tab">
     <Tabs :value="defaultTab" type="card" :capture-focus="true" @on-click="navClick">
       <TabPane label="串口设置" name="netportset">
-        <Form ref="netport" :model="netport" :rules="portRuleCustom" :label-width="60" style="width:300px;margin:34px auto 0 auto;">
+        <Form ref="netport" :model="netport" :rules="portRuleCustom" :label-width="60" style="width:300px;margin:34px auto 0 auto;height:100vh;">
           <FormItem label="串口号" prop="portnum">
             <Select v-model="netport.portnum" style="width:200px">
               <Option v-for="item in comlist" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -25,7 +25,7 @@
         </Form>
       </TabPane>
       <TabPane label="第一页屏" name="one">
-        <Form ref="pageone" :model="pageone" :rules="pageoneRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;">
+        <Form ref="pageone" :model="pageone" :rules="pageoneRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pageone.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -77,11 +77,15 @@
             <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pageone')">设置</Button>
             <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pageone')">预览</Button>
           </FormItem>
-          <div class="preview" v-if="pageonepre" v-html="previewData"></div>
+
+          <Modal title="预览" v-model="pageonepre" :mask-closable="false" @on-cancel="pageonepreChange">
+            <div class="preview" v-html="previewData"></div>
+            <div slot="footer"></div>
+          </Modal>
         </Form>
       </TabPane>
       <TabPane label="第二页屏" name="two">
-        <Form ref="pagetwo" :model="pagetwo" :rules="pagetwoRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;">
+        <Form ref="pagetwo" :model="pagetwo" :rules="pagetwoRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagetwo.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -133,11 +137,15 @@
             <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagetwo')">设置</Button>
             <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagetwo')">预览</Button>
           </FormItem>
-          <div class="preview" v-if="pagetwopre" v-html="previewData"></div>
+
+          <Modal title="预览" v-model="pagetwopre" :mask-closable="false" @on-cancel="pagetwopreChange">
+            <div class="preview" v-html="previewData"></div>
+            <div slot="footer"></div>
+          </Modal>
         </Form>
       </TabPane>
       <TabPane label="第三页屏" name="three">
-        <Form ref="pagethree" :model="pagethree" :rules="pagethreeRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;">
+        <Form ref="pagethree" :model="pagethree" :rules="pagethreeRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagethree.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -189,11 +197,15 @@
             <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagethree')">设置</Button>
             <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagethree')">预览</Button>
           </FormItem>
-          <div class="preview" v-if="pagethreepre" v-html="previewData"></div>
+          <Modal title="预览" v-model="pagethreepre" :mask-closable="false" @on-cancel="pagethreepreChange">
+            <div class="preview" v-html="previewData"></div>
+            <div slot="footer"></div>
+          </Modal>
+
         </Form>
       </TabPane>
       <TabPane label="第四页屏" name="four">
-        <Form ref="pagefour" :model="pagefour" :rules="pagefourRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;">
+        <Form ref="pagefour" :model="pagefour" :rules="pagefourRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagefour.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -245,7 +257,10 @@
             <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagefour')">设置</Button>
             <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagefour')">预览</Button>
           </FormItem>
-          <div class="preview" v-if="pagefourpre" v-html="previewData"></div>
+          <Modal title="预览" v-model="pagefourpre" :mask-closable="false" @on-cancel="pagefourpreChange">
+            <div class="preview" v-html="previewData"></div>
+            <div slot="footer"></div>
+          </Modal>
         </Form>
       </TabPane>
     </Tabs>
@@ -1379,6 +1394,18 @@
           }
         }
         this.$set(this[page], li, iconv.decode(temp, 'gbk'))
+      },
+      pageonepreChange() {
+        //this.pageonepre = false
+      },
+      pagetwopreChange() {
+        //this.pagetwopre = false
+      },
+      pagethreepreChange() {
+        //this.pagethreepre = false
+      },
+      pagefourpreChange() {
+        //this.pagefourpre = false
       }
     }
   }
@@ -1404,13 +1431,13 @@
   }
 
   .ivu-modal-mask {
-    background: rgba(255, 255, 255, 0.966) !important;
+    background: rgba(87, 87, 87, 0.966) !important;
   }
 
   .ivu-modal-content {
     box-shadow: 0 3px 25px rgba(133, 133, 133, 0.151);
-    width: 350px;
-    margin: 30px auto;
+    width: 550px;
+    margin: 0px auto;
   }
 
   .preview {
@@ -1446,17 +1473,15 @@
   .custom-tab {
     padding: 20px;
     width: 100vw;
-    position: absolute;
+    position: fixed;
     top: 72px;
     left: 0;
     bottom: 0;
     z-index: 1;
-    overflow: hidden;
   }
 
   .ivu-tabs {
     overflow: visible;
-    height: 100%;
   }
 
   .custom-tab>.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab-active {
