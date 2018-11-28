@@ -1,17 +1,13 @@
 <template>
   <div class="custom-tab">
     <Tabs :value="defaultTab" type="card" :capture-focus="true" @on-click="navClick">
-      <TabPane label="串口设置" name="netportset">
-        <Form ref="netport" :model="netport" :rules="portRuleCustom" :label-width="60" style="width:300px;margin:34px auto 0 auto;height:100vh;">
+      <TabPane label="基础设置" name="netset">
+        <Form ref="netset" :model="netset" :rules="ruleCustom" :label-width="100" style="width:300px;margin:34px auto 0 auto;">
           <FormItem label="串口号" prop="portnum">
-            <Select v-model="netport.portnum" style="width:200px">
-              <Option v-for="item in comlist" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="netset.portnum" style="width:200px">
+              <Option v-for="item in comlist" :value="item.value" :key="item.index">{{ item.label }}</Option>
             </Select>
           </FormItem>
-        </Form>
-      </TabPane>
-      <TabPane label="网络设置" name="netset">
-        <Form ref="netset" :model="netset" :rules="ruleCustom" :label-width="100" style="width:300px;margin:34px auto 0 auto;">
           <FormItem label="服务器IP" prop="ip">
             <Input type="text" v-model="netset.ip"></Input>
           </FormItem>
@@ -19,13 +15,14 @@
             <Input v-model="netset.port"></Input>
           </FormItem>
           <FormItem>
-            <Button shape="circle" type="primary" @click="serialport('netSet')" style="width:90px;">读取</Button>
-            <Button shape="circle" type="info" @click="handleReset('netset')" style="margin-left:8px;width:90px;">设置</Button>
+            <Button shape="circle" type="primary" @click="serialport('netSet')" style="width:90px;" :loading="loading">读取</Button>
+            <Button shape="circle" type="info" @click="handleReset('netset')" style="margin-left:8px;width:90px;"
+              :loading="loading">设置</Button>
           </FormItem>
         </Form>
       </TabPane>
       <TabPane label="第一页屏" name="one">
-        <Form ref="pageone" :model="pageone" :rules="pageoneRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
+        <Form ref="pageone" :model="pageone" :rules="pageoneRule" label-position="right" :label-width="150" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pageone.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -73,19 +70,21 @@
             </Select>
           </FormItem>
           <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageOne')">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pageone')">设置</Button>
-            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pageone')">预览</Button>
+            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageOne')" :loading="loading">获取</Button>
+            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pageone')"
+              :loading="loading">设置</Button>
+            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pageone')"
+              :loading="loading">预览</Button>
           </FormItem>
 
-          <Modal title="预览" v-model="pageonepre" :mask-closable="false" @on-cancel="pageonepreChange">
+          <Modal title="预览" :value="pageonepre" :mask-closable="false" @on-cancel="pageonepreChange">
             <div class="preview" v-html="previewData"></div>
             <div slot="footer"></div>
           </Modal>
         </Form>
       </TabPane>
       <TabPane label="第二页屏" name="two">
-        <Form ref="pagetwo" :model="pagetwo" :rules="pagetwoRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
+        <Form ref="pagetwo" :model="pagetwo" :rules="pagetwoRule" label-position="right" :label-width="150" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagetwo.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -133,19 +132,21 @@
             </Select>
           </FormItem>
           <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageTwo')">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagetwo')">设置</Button>
-            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagetwo')">预览</Button>
+            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageTwo')" :loading="loading">获取</Button>
+            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagetwo')"
+              :loading="loading">设置</Button>
+            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagetwo')"
+              :loading="loading">预览</Button>
           </FormItem>
 
-          <Modal title="预览" v-model="pagetwopre" :mask-closable="false" @on-cancel="pagetwopreChange">
+          <Modal title="预览" :value="pagetwopre" :mask-closable="false" @on-cancel="pagetwopreChange">
             <div class="preview" v-html="previewData"></div>
             <div slot="footer"></div>
           </Modal>
         </Form>
       </TabPane>
       <TabPane label="第三页屏" name="three">
-        <Form ref="pagethree" :model="pagethree" :rules="pagethreeRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
+        <Form ref="pagethree" :model="pagethree" :rules="pagethreeRule" label-position="right" :label-width="150" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagethree.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -193,11 +194,13 @@
             </Select>
           </FormItem>
           <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageThree')">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagethree')">设置</Button>
-            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagethree')">预览</Button>
+            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageThree')" :loading="loading">获取</Button>
+            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagethree')"
+              :loading="loading">设置</Button>
+            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagethree')"
+              :loading="loading">预览</Button>
           </FormItem>
-          <Modal title="预览" v-model="pagethreepre" :mask-closable="false" @on-cancel="pagethreepreChange">
+          <Modal title="预览" :value="pagethreepre" :mask-closable="false" @on-cancel="pagethreepreChange">
             <div class="preview" v-html="previewData"></div>
             <div slot="footer"></div>
           </Modal>
@@ -205,7 +208,7 @@
         </Form>
       </TabPane>
       <TabPane label="第四页屏" name="four">
-        <Form ref="pagefour" :model="pagefour" :rules="pagefourRule" label-position="right" :label-width="200" style="height:100%;margin:30px auto 0 auto;height:100vh;">
+        <Form ref="pagefour" :model="pagefour" :rules="pagefourRule" label-position="right" :label-width="150" style="height:100%;margin:30px auto 0 auto;height:100vh;">
           <FormItem label="是否启用">
             <i-switch v-model="pagefour.switch" size="large" true-value="1" false-value="0">
               <span slot="open">启用</span>
@@ -253,11 +256,13 @@
             </Select>
           </FormItem>
           <FormItem>
-            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageFour')">获取</Button>
-            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagefour')">设置</Button>
-            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagefour')">预览</Button>
+            <Button shape="circle" type="primary" style="width:90px;" @click="serialport('getPageFour')" :loading="loading">获取</Button>
+            <Button shape="circle" type="info" style="margin-left:12px;width:90px;" @click="serialportset('pagefour')"
+              :loading="loading">设置</Button>
+            <Button shape="circle" type="warning" style="margin-left:12px;width:90px;" @click="preview('pagefour')"
+              :loading="loading">预览</Button>
           </FormItem>
-          <Modal title="预览" v-model="pagefourpre" :mask-closable="false" @on-cancel="pagefourpreChange">
+          <Modal title="预览" :value="pagefourpre" :mask-closable="false" @on-cancel="pagefourpreChange">
             <div class="preview" v-html="previewData"></div>
             <div slot="footer"></div>
           </Modal>
@@ -276,6 +281,7 @@
   } from 'crc-full'
   const remote = require('electron').remote
   var leftLoop, snowLoop, bottomLoop
+
   export default {
     name: 'landing-page',
     components: {
@@ -336,19 +342,10 @@
         }
       };
       return {
-        netport: {
-          portnum: ''
-        },
-        portRuleCustom: {
-          portnum: [{
-            required: true,
-            message: '请输入IP',
-            trigger: 'blur'
-          }]
-        },
         netset: {
           ip: '',
-          port: ''
+          port: '',
+          portnum: ''
         },
         ruleCustom: {
           port: [{
@@ -357,6 +354,11 @@
           }],
           ip: [{
             validator: validateIP,
+            trigger: 'blur'
+          }],
+          portnum: [{
+            required: true,
+            message: '请选择串口号',
             trigger: 'blur'
           }]
         },
@@ -472,30 +474,40 @@
         topLoopid: null,
         topLoopDelayid: null,
         blingid: null,
-        defaultTab: 0,
+        defaultTab: 'netset',
         pageonepre: false,
         pagetwopre: false,
         pagethreepre: false,
         pagefourpre: false,
         previewData: '',
-        delayTimes: 0
+        delayTimes: 0,
+        loading: false
       }
     },
     mounted() {
+      var schedule = require('node-schedule')
       var SerialPort = require('serialport')
-      let portInner = ""
+      var rule = new schedule.RecurrenceRule()
+      var ss = []
+      for (var i = 0; i < 60; i++)
+        ss.push(i)
+      rule.second = ss
       var that = this
-      SerialPort.list(function (err, ports) {
-        ports.forEach(function (port) {
-          let com = port.comName
-          var cominfo = {
-            value: com,
-            label: com
-          }
-          that.comlist.push(cominfo)
+
+      var j = schedule.scheduleJob(rule, function () {
+        let portInner = ""
+        that.comlist = []
+        SerialPort.list(function (err, ports) {
+          ports.forEach(function (port) {
+            let com = port.comName
+            var cominfo = {
+              value: com,
+              label: com
+            }
+            that.comlist.push(cominfo)
+          })
         })
       })
-
     },
     methods: {
       open(link) {
@@ -513,12 +525,12 @@
       //网络参数设置
       handleReset(name) {
         //this.$refs[name].resetFields();
-        if (this.netport.portnum === '') {
+        if (this.netset.portnum === '') {
           this.$Notice.error({
             title: '错误',
             desc: '请先选择串口！'
           })
-          this.defaultTab = 0
+          this.defaultTab = 'netset'
           return
         }
         this.$refs[name].validate((valid) => {
@@ -537,7 +549,7 @@
 
           var SerialPort = require('serialport')
 
-          var port = new SerialPort(this.netport.portnum, {
+          var port = new SerialPort(this.netset.portnum, {
             baudRate: 115200,
             dataBits: 8,
             autoOpen: false
@@ -559,6 +571,7 @@
                 })
                 return
               }
+              that.loading = true
             })
 
           })
@@ -589,17 +602,21 @@
             port.close((err) => {
               console.log('closed?', err)
             })
+            that.loading = false
           })
           port.on('error', function (err) {
             that.$Notice.error({
               title: '错误',
               desc: err.message
             })
+            that.loading = false
             return
           })
         })
       },
       preview(page) {
+        console.log('preview:', page)
+
         const {
           createCanvas,
           loadImage
@@ -621,6 +638,14 @@
           target = that.pagethree
         if (page === 'pagefour')
           target = that.pagefour
+        if (page === 'pageone')
+          that.pageonepre = true
+        if (page === 'pagetwo')
+          that.pagetwopre = true
+        if (page === 'pagethree')
+          that.pagethreepre = true
+        if (page === 'pagefour')
+          that.pagefourpre = true
         if (target.lineone === '' && target.linetwo === '' && target.linethree === '') {
           that.$Notice.error({
             title: '错误',
@@ -628,6 +653,7 @@
           })
           return
         }
+        that.loading = true
         if (target.radioone == 'left') {
           ctx.fillText(target.lineone, 0, 14)
         }
@@ -665,6 +691,14 @@
           ctx.textAlign = "right"
           ctx.fillText(target.linethree, 128, 46)
         }
+        window.clearInterval(that.leftLoopid)
+        window.clearInterval(that.leftLoopDelayid)
+        window.clearInterval(that.snowLoopid)
+        window.clearInterval(that.bottomLoopid)
+        window.clearInterval(that.topLoopid)
+        window.clearInterval(that.topLoopDelayid)
+        window.clearInterval(that.bottomLoopDelayid)
+        window.clearInterval(that.blingid)
         var base64Img = require('base64-img')
         var baseimgpath = 'resources/bg.png'
         if (process.env.NODE_ENV !== 'development')
@@ -691,14 +725,7 @@
                 return (temp[j][i])[3] > 0 ? 1 : 0
               })
               var Matrix = require('matrix-slicer')
-              window.clearInterval(that.leftLoopid)
-              window.clearInterval(that.leftLoopDelayid)
-              window.clearInterval(that.snowLoopid)
-              window.clearInterval(that.bottomLoopid)
-              window.clearInterval(that.topLoopid)
-              window.clearInterval(that.topLoopDelayid)
-              window.clearInterval(that.bottomLoopDelayid)
-              window.clearInterval(that.blingid)
+
               //立即显示
               if (target.select === '1') {
                 const math = require('mathjs')
@@ -729,7 +756,6 @@
                 that.updownstep = 0
                 that.delayTimes = 0
                 that.updowntemp = []
-                const math = require('mathjs')
                 that.templeddata = new Matrix(require("ndarray-unpack")(x))
                 that.bottomLoopDelayid = setInterval(that.bottomLoopDelay, 0, x, page)
               }
@@ -771,6 +797,7 @@
             })
           })
         })
+        that.loading = false
       },
       //循环左移特效
       leftLoop(x, page) {
@@ -822,6 +849,16 @@
           if (that.delayTimes++ < 128) {
             that.updownstep = 127
             that.templeddata = new Matrix(require("ndarray-unpack")(x))
+            var tt = []
+            for (var ii = 0; ii < 128; ii++) {
+              if (ii < 128 && ii > 0) {
+                tt[ii] = that.templeddata.getColumn(ii - 1)
+              } else {
+                if (ii == 0)
+                  tt[ii] = that.templeddata.getColumn(127)
+              }
+            }
+            that.templeddata = new Matrix(math.transpose(tt))
           } else {
             that.updownstep = 0
             that.delayTimes = 0
@@ -873,13 +910,21 @@
         that.updownstep++
         //响应式存储当前像素矩阵，应用于下一次循环矩阵的基
         if (that.updownstep < 48) {
-
           that.templeddata = new Matrix(math.squeeze(that.updowntemp))
         } else {
           if (that.delayTimes++ < 128) {
-
             that.updownstep = 48
             that.templeddata = new Matrix(require("ndarray-unpack")(x))
+            var tt = []
+            for (var ii = 0; ii < 48; ii++) {
+              if (ii <= 47 && ii > 0) {
+                tt[ii] = that.templeddata.getRow(ii - 1)
+              } else {
+                if (ii == 0)
+                  tt[ii] = that.templeddata.getRow(47)
+              }
+            }
+            that.templeddata = new Matrix(math.squeeze(tt))
           } else {
             that.updownstep = 0
             that.delayTimes = 0
@@ -930,13 +975,23 @@
         }
         that.updownstep++
         //响应式存储当前像素矩阵，应用于下一次循环矩阵的基
-        if (that.updownstep < 48) {
+        if (that.updownstep < 47) {
           that.templeddata = new Matrix(math.squeeze(that.updowntemp))
         } else {
           if (that.delayTimes++ < 128) {
 
-            that.updownstep = 48
+            that.updownstep = 47
             that.templeddata = new Matrix(require("ndarray-unpack")(x))
+            var tt = []
+            for (var ii = 0; ii < 48; ii++) {
+              if (ii < 47 && ii >= 0) {
+                tt[ii] = that.templeddata.getRow(ii + 1)
+              } else {
+                if (ii == 47)
+                  tt[ii] = that.templeddata.getRow(0)
+              }
+            }
+            that.templeddata = new Matrix(math.squeeze(tt))
           } else {
             that.updownstep = 0
             that.delayTimes = 0
@@ -977,18 +1032,6 @@
 
       },
       myGrid(data, page) {
-        this.pageonepre = false
-        this.pagetwopre = false
-        this.pagethreepre = false
-        this.pagefourpre = false
-        if (page === 'pageone')
-          this.pageonepre = true
-        if (page === 'pagetwo')
-          this.pagetwopre = true
-        if (page === 'pagethree')
-          this.pagethreepre = true
-        if (page === 'pagefour')
-          this.pagefourpre = true
         this.previewData = ''
         var height = data.length
         var width = data[0].length
@@ -1030,16 +1073,16 @@
         let computed_crc = crc.compute(iconv.encode(sss, 'ascii'))
 
         var SerialPort = require('serialport')
-        if (this.netport.portnum === '') {
+        if (this.netset.portnum === '') {
           this.$Notice.error({
             title: '错误',
             desc: '请先选择串口！'
           })
-          this.defaultTab = 0
+          this.defaultTab = 'netset'
           return
         }
 
-        var port = new SerialPort(this.netport.portnum, {
+        var port = new SerialPort(this.netset.portnum, {
           baudRate: 115200,
           dataBits: 8,
           autoOpen: false
@@ -1061,6 +1104,7 @@
               })
               return
             }
+            that.loading = true
           })
 
         })
@@ -1120,18 +1164,22 @@
                   that.netset.ip = ss[2].replace(/[&\|\\\*\-]/g, "")
                   that.netset.port = ss[3].replace(/[&\|\\\*\-]/g, "")
                 }
-              } catch (err) {} finally {
+              } catch (err) {
+                console.log(err)
+              } finally {
                 port.close((err) => {
                   console.log('closed?', err)
                 })
+                that.loading = false
               }
             })
-          }, 100)
+          }, 500)
         port.on('error', function (err) {
           that.$Notice.error({
             title: '错误',
             desc: err.message
           })
+          that.loading = false
           return
         })
       },
@@ -1183,16 +1231,16 @@
           let computed_crc = crc.compute(iconv.encode(sss, 'gbk'), 'ascii')
 
           var SerialPort = require('serialport')
-          if (this.netport.portnum === '') {
+          if (this.netset.portnum === '') {
             this.$Notice.error({
               title: '错误',
               desc: '请先选择串口！'
             })
-            this.defaultTab = 0
+            this.defaultTab = 'netset'
             return
           }
 
-          var port = new SerialPort(this.netport.portnum, {
+          var port = new SerialPort(this.netset.portnum, {
             baudRate: 115200,
             dataBits: 8,
             autoOpen: false
@@ -1230,6 +1278,7 @@
               return
             }
             console.log('Return Data:', iconv.decode(data, 'gbk'))
+            that.loading = true
             var dd = iconv.decode(data, 'gbk')
             var rdata = dd.split(';')
             if (rdata.length >= 3) {
@@ -1250,7 +1299,7 @@
               })
             }
             port.close((err) => {
-
+              that.loading = false
             })
           })
           port.on('error', function (err) {
@@ -1258,6 +1307,7 @@
               title: '错误',
               desc: err.message
             })
+            that.loading = false
             return
           })
         })
@@ -1396,16 +1446,20 @@
         this.$set(this[page], li, iconv.decode(temp, 'gbk'))
       },
       pageonepreChange() {
-        //this.pageonepre = false
+        console.log('第一页关闭')
+        this.pageonepre = false
       },
       pagetwopreChange() {
-        //this.pagetwopre = false
+        console.log('第二页关闭')
+        this.pagetwopre = false
       },
       pagethreepreChange() {
-        //this.pagethreepre = false
+        console.log('第三页关闭')
+        this.pagethreepre = false
       },
       pagefourpreChange() {
-        //this.pagefourpre = false
+        console.log('第四页关闭')
+        this.pagefourpre = false
       }
     }
   }
@@ -1447,6 +1501,7 @@
     display: flex;
     flex-wrap: wrap;
     align-content: center;
+    background: rgb(71, 71, 71);
   }
 
   .preview>.row {
@@ -1459,6 +1514,7 @@
     display: block;
     height: 3px;
     width: 3px;
+    border-radius: 3px;
     background: rgba(0, 0, 0, 1);
     padding: 1px;
     margin: 0.5px;

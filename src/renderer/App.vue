@@ -12,7 +12,7 @@
     name: 'ledpro',
     components: {
       TopBar
-    },
+    }
   }
 </script>
 
