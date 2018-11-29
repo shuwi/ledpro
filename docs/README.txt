@@ -1,13 +1,13 @@
 
 TITLE: 
-Cube - 100% Fully Responsive Free HTML5 Bootstrap Template
+Shape - 100% Fully Responsive Free HTML5 Bootstrap Template
 
 AUTHOR:
-DESIGNED & DEVELOPED by FreeHTML5.co
+DESIGNED & DEVELOPED by GetTemplates.co
 
-Website: https://freehtml5.co/
-Twitter: http://twitter.com/fh5co
-Facebook: http://facebook.com/fh5co
+Website: http://gettemplates.co/
+Twitter: http://twitter.com/gettemplatesco
+Facebook: http://facebook.com/gettemplatesco
 
 
 CREDITS:
@@ -39,13 +39,13 @@ http://daneden.me/animate
 jQuery Waypoint
 https://github.com/imakewebthings/waypoints/blog/master/licenses.txt
 
-Owl Carousel
+jQuery countTo
 http://www.owlcarousel.owlgraphic.com/
 
 Magnific Popup
 http://dimsemenov.com/plugins/magnific-popup/
 
 Demo Images:
-http://unsplash.com
 http://pixeden.com
+http://unsplash.com
 
